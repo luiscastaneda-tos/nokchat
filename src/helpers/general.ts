@@ -1,3 +1,16 @@
+type Cupon = {
+  hotel: string;
+  direccion: string;
+  checkin: string;
+  checkout: string;
+  noches: number;
+  noktos: number;
+  desayuno: string;
+  notas: string;
+  precio: number;
+  impuestos: number;
+};
+
 export async function createCupon({
   hotel,
   direccion,
@@ -8,8 +21,8 @@ export async function createCupon({
   desayuno,
   notas,
   precio = 0,
-}) {
-  let cupon = {
+}: Cupon) {
+  const cupon = {
     hotel,
     direccion,
     checkin,

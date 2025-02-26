@@ -6,11 +6,12 @@ import { createCupon } from "./general";
 import { OpenAI } from "openai"; // Add this import statement if OpenAI type is not imported
 
 export async function handleRequiresAction(
-  run: any,
+  run: OpenAI.Beta.Threads.Runs.Run | undefined,
   openai: OpenAI
 ): Promise<any> {
   //Verifica si hay acciones por hacer
   if (
+    run &&
     run.required_action &&
     run.required_action.submit_tool_outputs &&
     run.required_action.submit_tool_outputs.tool_calls
