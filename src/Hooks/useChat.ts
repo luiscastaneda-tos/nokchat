@@ -39,10 +39,7 @@ export function useChat() {
 
         console.log(data);
 
-        if (data.error)
-          throw new Error(
-            `${data.message} \n${data.error.status}: ${data.error.type}\n${data.error.error.message}`
-          );
+        if (data.error) throw new Error(data.error);
 
         setMessages((prevMessages) => [
           ...prevMessages,
