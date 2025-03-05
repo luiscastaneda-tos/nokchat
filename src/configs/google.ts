@@ -22,8 +22,3 @@ export function connectGoogleApi() {
 
   return { sheets };
 }
-
-module.exports = {
-  connectGoogleApi,
-  spreadHoteles,
-};
