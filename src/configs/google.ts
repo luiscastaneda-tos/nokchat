@@ -14,11 +14,6 @@ export function connectGoogleApi() {
         : undefined,
       client_email: process.env.google_client_email,
       client_id: process.env.google_client_id,
-      auth_uri: process.env.google_auth_uri,
-      token_uri: process.env.google_token_uri,
-      auth_provider_x509_cert_utl:
-        process.env.google_auth_provider_x509_cert_url,
-      client_x590_cert_url: process.env.google_client_x509_cert_url,
       universe_domain: process.env.google_universe_domain,
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
