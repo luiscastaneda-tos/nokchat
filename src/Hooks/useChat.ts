@@ -37,6 +37,8 @@ export function useChat() {
         });
         const data = await res.json();
 
+        console.log(data);
+
         if (data.error)
           throw new Error(
             `${data.message} \n${data.error.status}: ${data.error.type}\n${data.error.error.message}`
@@ -51,7 +53,7 @@ export function useChat() {
         ]);
         if (!thread) saveThread(data.response.thread_id);
       } catch (error) {
-        console.error(`Error:\n\n${new Date()}\n\n`, error);
+        console.error(error);
         alert("Ha ocurrido un error, verifica la consola");
       } finally {
         setLoading(false);

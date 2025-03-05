@@ -26,10 +26,15 @@ export async function GET(request: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json(); // Obtener el cuerpo de la solicitud (JSON)
+    console.log(body);
 
     // Llamamos a main con el cuerpo de la solicitud
     const result = await main(body);
-    return new Response(JSON.stringify(result), { status: 200 });
+    console.log(result);
+    const response = new Response(JSON.stringify(result), { status: 200 });
+    console.log("****************************************");
+    console.log(response);
+    return response;
   } catch (err) {
     console.error("Error en POST /api/chat:", err);
     return new Response(
