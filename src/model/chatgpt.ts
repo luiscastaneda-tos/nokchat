@@ -13,6 +13,18 @@ interface ThreadMessage {
   role: string;
   content: string;
 }
+interface ThreadResponse {
+  body: {
+    data: Array<{
+      role: string;
+      content: Array<{
+        text: {
+          value: string;
+        };
+      }>;
+    }>;
+  };
+}
 
 // Función principal
 async function main({
@@ -72,14 +84,14 @@ async function getThread({ thread_id }: { thread_id: string }) {
     const thread = await openai.beta.threads.messages.list(thread_id);
     console.dir(thread);
 
-    const mensajes: ThreadMessage[] = (thread as any).body.data.map(
-      (element: any) => {
-        return {
-          role: element.role,
-          content: element.content[0].text.value,
-        };
-      }
-    );
+    const mensajes: ThreadMessage[] = (
+      thread as unknown as ThreadResponse
+    ).body.data.map((element) => {
+      return {
+        role: element.role,
+        content: element.content[0].text.value,
+      };
+    });
 
     return mensajes.reverse();
   } catch (error) {

@@ -1,14 +1,26 @@
 import { readHoteles, readHotelInfo } from "./google";
 import { getTicketData } from "./zoho";
 import { createCupon } from "./general";
+import { OpenAI } from "openai";
+
+interface ToolCall {
+  id: string;
+  function: {
+    name: string;
+    arguments: string;
+  };
+}
+
+interface ToolOutput {
+  tool_call_id: string;
+  output: string;
+}
 
 //Maneja las llamadas de funcion
-import { OpenAI } from "openai"; // Add this import statement if OpenAI type is not imported
-
 export async function handleRequiresAction(
   run: OpenAI.Beta.Threads.Runs.Run | undefined,
   openai: OpenAI
-): Promise<any> {
+): Promise<unknown> {
   //Verifica si hay acciones por hacer
   if (
     run &&
@@ -21,8 +33,8 @@ export async function handleRequiresAction(
     const toolOutputs = await Promise.all(
       //El array que le vamos a mandar son todas las acciones que se deben realizar y que se encuentran en tool_calls
       run.required_action.submit_tool_outputs.tool_calls.map(
-        async (tool: any) => {
-          const args: any = JSON.parse(tool.function.arguments);
+        async (tool: ToolCall) => {
+          const args = JSON.parse(tool.function.arguments);
           console.log(args);
 
           if (tool.function.name === "readHoteles") {
@@ -64,7 +76,7 @@ export async function handleRequiresAction(
       new_run = await openai.beta.threads.runs.submitToolOutputsAndPoll(
         run.thread_id,
         run.id,
-        { tool_outputs: toolOutputs }
+        { tool_outputs: toolOutputs as ToolOutput[] }
       );
       console.log("Tool outputs submitted successfully.");
     } else {
@@ -97,8 +109,3 @@ export async function handleRunStatus(
     console.error("Run did not complete:", run);
   }
 }
-
-module.exports = {
-  handleRequiresAction,
-  handleRunStatus,
-};

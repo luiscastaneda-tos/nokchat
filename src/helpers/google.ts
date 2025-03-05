@@ -8,6 +8,7 @@ type Encontrado = {
 };
 
 export async function readHoteles({ hoteles }) {
+  console.log(hoteles.slice(0, 5));
   const { sheets } = connectGoogleApi();
   const range = "sheet1!A2:C";
   const response = await sheets.spreadsheets.values.get({
